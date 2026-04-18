@@ -2,7 +2,6 @@
 <html lang="en-US"> 
 <head>
     <meta charset="utf-8" />
-    
     <title>
         Map Application
     </title>
@@ -52,6 +51,14 @@
         }
 
         #searchInput { width: 250px; padding: 5px; }
+
+        #toggle3D {
+            position: absolute;
+            top: 70px;
+            left: 20px;
+            z-index: 1;
+            padding: 10px;
+        }
     </style>
 </head>
 
@@ -68,6 +75,7 @@
 <div id="map"></div>
 
 <button id="openBtn" onclick="openDialog()">Enter Address</button>
+<button id="toggle3D">Toggle 3D</button>
 
 <dialog id="addressDialog">
     <form method="dialog">

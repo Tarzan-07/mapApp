@@ -31,6 +31,48 @@ document.getElementById('searchInput').addEventListener("keydown", function (eve
     }
 })
 
+let is3d = false;
+document.getElementById('toggle3D').addEventListener('click', () => {
+    if (!is3d) {
+        map.easeTo({
+            pitch: 60,
+            bearing: -30,
+            duration: 1000
+        });
+    } else {
+        map.easeTo({
+            pitch: 0,
+            bearing: 0,
+            duration: 1000
+        });
+    }
+    is3d = !is3d;
+})
+
+map.on('load', ()=> {
+    const layers = map.getStyle().layers;
+    const labelLayerId = layers.find(
+        layer => layer.type === 'symbol' && layer.layout['text-field']
+    )?.id;
+
+    map.addLayer(
+        {
+            id: '3d-buildings',
+            source: 'openmaptiles',
+            'source-layer':  'building',
+            type: 'fill-extrusion',
+            minzoom: 15,
+            paint: {
+                'fill-extrusion-color': '#aaa',
+                'fill-extrusion-height': ['get', 'height'],
+                'fill-extrusion-base': ['get', 'min_height'],
+                'fill-extrusion-opacity': 0.6
+            }
+        },
+        labelLayerId
+    );
+});
+
 async function searchAddress() {
     const query = document.getElementById('searchInput').value;
     if (!query) return;
